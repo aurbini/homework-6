@@ -1,0 +1,10 @@
+.card-content {
+  max-width: 180px; 
+  height: auto; 
+}
+.weather-cards {
+  display: flex; 
+  justify-content: space-between;
+  
+
+}

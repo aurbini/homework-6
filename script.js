@@ -4,21 +4,13 @@ $(document).ready(function(){
   var mainContentDiv = $('.main-content'); 
   var weatherCardsDiv = $('.weather-cards')
   //Grab elements from html
-  //declare your variables
-
-  //helper functions 
-
-
   //Get third party/API calls
   var apiKey = '8510c14918232716bc9743d7f1fc2f0c';
-
   var city = 'new york'; 
   var cityCode = '10029'
 
-  var currentWeather = {
-
-  }
-  var weather = [{
+  var currentWeather = [];
+  var daysOfWeek = [{
                   }, {
                   }, {
                   }, {
@@ -32,11 +24,11 @@ var citiesList = [];
       url: `http://api.openweathermap.org/data/2.5/weather?q=${inputCity}&APPID=` +apiKey+'&units=imperial',
       method: "GET"
     }).then(function(response){
-       currentWeather.temp = response.main.temp;
-       currentWeather.speed = currentWeather.windSpeed = response.wind.speed 
-       currentWeather.humidity = response.main.humidity
-       console.log(response.coord.lon)
-      // currentWeather.response.coord.lon;
+      //console.log(response); 
+       currentWeather[0] = response.name; 
+       currentWeather[1] = response.main.temp;
+       currentWeather[2] = currentWeather.windSpeed = response.wind.speed 
+       currentWeather[3] = response.main.humidity
       uvIndex(response.coord.lon,response.coord.lat); 
       fiveDayWeather(response.coord.lon,response.coord.lat); 
     });
@@ -46,7 +38,7 @@ var citiesList = [];
         url: `http://api.openweathermap.org/data/2.5/uvi/forecast?appid=${apiKey}&lat=${lat}&lon=${lon}`,
         method: "GET"
       }).then(function(response){
-        currentWeather.UvIndex = response[0].value; 
+        currentWeather[4] = response[0].value; 
       })
     }
     //5 day forecast ajax call
@@ -56,64 +48,87 @@ var citiesList = [];
       url: `https://api.openweathermap.org/data/2.5/forecast?appid=${apiKey}&lat=${lat}&lon=${lon}`,
       method: "GET"
     }).then(function(response){
-      weather[0].firstDayTemp = response.list[0].main.temp
-      weather[0].firstDayHumidity = response.list[0].main.humidity
-      weather[0].firstDayIcon = response.list[0].weather[0].icon 
-
-      weather[1].secondDayTemp = response.list[1].main.temp
-      weather[1].secondDayHumidity = response.list[1].main.humidity
-      weather[1].secondDayHumidity = response.list[1].weather[0].icon
-
-      weather[2].thirdDayTemp = response.list[2].main.humidity
-      weather[2].thirdDayHumidity = response.list[2].main.humidity
-      weather[2].thirdDayIcon = response.list[2].weather[0].icon 
-
-      weather[3].thirdDayTemp = response.list[3].main.humidity
-      weather[3].thirdDayHumidity = response.list[3].main.humidity
-      weather[3].thirdDayIcon = response.list[3].weather[0].icon 
-
-      weather[4].thirdDayTemp = response.list[4].main.humidity
-      weather[4].thirdDayHumidity = response.list[4].main.humidity
-      weather[4].thirdDayIcon = response.list[4].weather[0].icon 
-
-      storeItems(); 
+      daysOfWeek = response.list.slice(0, 5).map(
+        function(day, index){
+          //console.log('adding day of the week to daysOfWeek', day);
+          return {
+            temp: day.main.temp,
+            humidity: day.main.humidity,
+            icon: day.weather.icon
+          };
+        }
+      )
+      //storeItems(); 
       renderWeatherCards(); 
       renderWeatherMain(); 
       })
     }
   }
-  // window.localStorage.setItem("savedEventsArray", JSON.stringify(eventsArray)); 
-
-  function storeCity(){
-     window.localStorage.setItem("citiesList", JSON.stringify(citiesList)); 
+    function storeInformation(){
+      window.localStorage.setItem("citiesList", JSON.stringify(citiesList)); 
+      window.localStorage.setItem("daysOfWeek", JSON.stringify(daysOfWeek)); 
   }
-
-
 
   //Update data
-  function renderWeatherCards(){
-
+  var parsedList = ''
+  function renderCitiesList(){
+    $('.cities-list').empty(); 
+    var parsedList = JSON.parse(localStorage.getItem("citiesList"))
+    console.log(parsedList); 
+    for(var i = 0; i < parsedList.length; i++){
+      var storedCity = parsedList[i];
+      console.log(storedCity); 
+       $('.cities-list').append($('<li class=list-group-item>').text(parsedList[i]));
+    }
   }
-function renderWeatherMain(){
+  function renderWeatherCards(){
+    weatherCardsDiv.empty();
+    daysOfWeek.forEach(day => {
+      weatherCardsDiv.append($(`
+        <div class="card bg-primary card-content">
+          <div class="card-body"
+            <p>${ day.temp }</p>
+            <p>${ day.humidity }</p>
+            <p>${ day.icon }</p>
+          </div>
+        </div>
+      `))
+    });
+  }
 
+function renderWeatherMain(){
+  mainContentDiv.empty(); 
+  for(var i = 0; i < currentWeather.length; i++){
+    var currentWeatherStat = $('<p class="main-content>');
+    currentWeatherStat.text(currentWeather[i]); 
+    mainContentDiv.append(currentWeatherStat); 
+  }
 }
 
-  //user input 
-  //click on button 
+// renderCitiesList(); 
+  function init(){
+    if(parsedList = ''){
+      parsedList = 'Miami';
+      weatherAPICall(parsedList);  
+    }else {
+      var lastCity = JSON.parse(localStorage.getItem("citiesList"))
+      weatherAPICall(lastCity[0]);
+    }
+  }
+  init(); 
+
+
+
   cityWeatherButton.click(function(event){
     event.preventDefault();
-    // var input = $('#input-city').val();
-    var $inputCity = $('#input-city');
+    //var $inputCity = $('#input-city');
     inputCity = $('#input-city').val().trim();
     
     citiesList.push(inputCity); 
     $('#input-city').text('') 
-    //storeCity();
+    //console.log(citiesList); 
+    storeInformation();
+    renderCitiesList(); 
     weatherAPICall(inputCity);
   })
-
-  //save to local storage
-  //display function
-    //parse and grab local storage
-    // 
 })

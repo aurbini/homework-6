@@ -8,27 +8,27 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
+    <link rel="stylesheet" href="style.css">
     <title>Hello, world!</title>
   </head>
   <body>
-    <div class="container-fluid">
+    <div class="container-fluid mb-30">
       <div class="h-50 row text-center justify-content-center bg-secondary ">
         <h1 class="col text-white" >Weather Dashboard</h1>
       </div>
     </div>
     <div class="container-fluid ">
-      <div class="row">
+      <div class="mt- 10 row">
         <aside class="col-lg-3 column aside-section">
           <h3 class="city-search-heading">Search for a city: </h3>
           <form>
             <input type="text" id="input-city" type="submit" value = "">
             <button id="search-button" class="search-button btn btn-primary">Search</button>
           </form>
-          <ul></ul>
+          <ul class="cities-list"></ul>
         </aside>
         <div class="col-lg-9">
-            <div class="jumbotron jumbotron-fluid main-content">
+            <div class="jumbotron jumbotron-fluid main-content mt-10">
               <div class="container">
                 <!-- <h1 class="display-4">City</h1>
                 <p class="lead">Temperature </p>
