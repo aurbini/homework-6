@@ -1,3 +1,7 @@
+.body {
+font-family: 'Georgia', Times, 'Times New Roman', serif;
+}
+
 .card-content {
   max-width: 180px; 
   height: auto; 
@@ -5,6 +9,30 @@
 .weather-cards {
   display: flex; 
   justify-content: space-between;
-  
+}
+.five-day-heading {
+  display: block; 
+}
+.main-content { 
+  margin: 10px auto; 
+  font-style: ;
+}
+.date {
+  padding-left: 10px;
+}
+.main-0 {
+  display: inline-block; 
+  margin-right: 10px;
+  font-size: 1.4em; 
+}
+.todayWeatherStat {
+  font-family: 'Georgia', Times, 'Times New Roman', serif;
+  font-weight: bold;
+}
+.todays-weather-div {
+  padding-left: 50px;
 
+}
+.jumbotron {
+  padding-left: 100px;
 }

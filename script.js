@@ -31,6 +31,8 @@ var citiesList = [];
        currentWeather[3] = response.main.humidity
       uvIndex(response.coord.lon,response.coord.lat); 
       fiveDayWeather(response.coord.lon,response.coord.lat); 
+      renderCitiesList(); 
+
     });
     //uvindex call
     function uvIndex (lon, lat){
@@ -50,7 +52,6 @@ var citiesList = [];
     }).then(function(response){
       daysOfWeek = response.list.slice(0, 5).map(
         function(day, index){
-          //console.log('adding day of the week to daysOfWeek', day);
           return {
             temp: day.main.temp,
             humidity: day.main.humidity,
@@ -70,11 +71,13 @@ var citiesList = [];
   }
 
   //Update data
-  var parsedList = ''
   function renderCitiesList(){
     $('.cities-list').empty(); 
     var parsedList = JSON.parse(localStorage.getItem("citiesList"))
     console.log(parsedList); 
+    if(parsedList[0] === null){
+
+    }
     for(var i = 0; i < parsedList.length; i++){
       var storedCity = parsedList[i];
       console.log(storedCity); 
@@ -83,13 +86,16 @@ var citiesList = [];
   }
   function renderWeatherCards(){
     weatherCardsDiv.empty();
+    //weatherCardsDiv.append($('<h2 class=five-day-heading>Five Day Forecast</h2>'))
     daysOfWeek.forEach(day => {
+
+      
       weatherCardsDiv.append($(`
-        <div class="card bg-primary card-content">
-          <div class="card-body"
-            <p>${ day.temp }</p>
-            <p>${ day.humidity }</p>
-            <p>${ day.icon }</p>
+        <div class="card bg-primary col-2 col-12-sm card-content">
+          <div class="card-body col-12-sm"
+            <p class="card-stat col-12-sm">${day.temp}</p>
+            <p class="card-stat">${day.humidity}</p>
+            <img src = http://openweathermap.org/img/wn/10d@2x.png/>
           </div>
         </div>
       `))
@@ -98,18 +104,33 @@ var citiesList = [];
 
 function renderWeatherMain(){
   mainContentDiv.empty(); 
+  var todayWeatherDiv = $('<div>').attr('class', 'todays-weather-div') 
+  mainContentDiv.append(todayWeatherDiv); 
   for(var i = 0; i < currentWeather.length; i++){
-    var currentWeatherStat = $('<p class="main-content>');
+    //console.log('main')
+    var currentWeatherStat = $('<p>');
+    currentWeatherStat.attr('class','todayWeatherStat')
+    if(i === 0){
+      var m = moment()
+      var currentDate = m.format('MMM Do YYYY')
+      var date = $('<span>').text(currentDate).addClass('date');
+      console.log(date); 
+      currentWeatherStat.addClass(`main-${i}`)
+    }
     currentWeatherStat.text(currentWeather[i]); 
-    mainContentDiv.append(currentWeatherStat); 
+    todayWeatherDiv.append(currentWeatherStat); 
+    if(i === 0) currentWeatherStat.append(date); 
   }
 }
-
+var parsedList =  JSON.parse(localStorage.getItem("citiesList"))
+console.log(parsedList); 
 // renderCitiesList(); 
   function init(){
-    if(parsedList = ''){
+    if(parsedList === null){
       parsedList = 'Miami';
       weatherAPICall(parsedList);  
+      $('cities-list').append($('<li>Miami</li>'))
+      console.log(parsedList);
     }else {
       var lastCity = JSON.parse(localStorage.getItem("citiesList"))
       weatherAPICall(lastCity[0]);
@@ -128,7 +149,7 @@ function renderWeatherMain(){
     $('#input-city').text('') 
     //console.log(citiesList); 
     storeInformation();
-    renderCitiesList(); 
+    // renderCitiesList(); 
     weatherAPICall(inputCity);
   })
 })
