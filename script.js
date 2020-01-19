@@ -26,9 +26,9 @@ var citiesList = [];
     }).then(function(response){
       //console.log(response); 
        currentWeather[0] = response.name; 
-       currentWeather[1] = response.main.temp;
-       currentWeather[2] = currentWeather.windSpeed = response.wind.speed 
-       currentWeather[3] = response.main.humidity
+       currentWeather[1] = `Temperature: ${response.main.temp}`;
+       currentWeather[2] = `Wind Speed: ${response.wind.speed}`;
+       currentWeather[3] = `Humidity: ${response.main.humidity}`
       uvIndex(response.coord.lon,response.coord.lat); 
       fiveDayWeather(response.coord.lon,response.coord.lat); 
       renderCitiesList(); 
@@ -40,7 +40,7 @@ var citiesList = [];
         url: `https://api.openweathermap.org/data/2.5/uvi/forecast?appid=${apiKey}&lat=${lat}&lon=${lon}`,
         method: "GET"
       }).then(function(response){
-        currentWeather[4] = response[0].value; 
+        currentWeather[4] = `UV: ${response[0].value}`; 
       })
     }
     //5 day forecast ajax call
