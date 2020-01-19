@@ -91,7 +91,7 @@ var citiesList = [];
 
       
       weatherCardsDiv.append($(`
-        <div class="card bg-primary mb-2 col-sm-12 card-content">
+        <div class="card bg-primary mb-2 col-sm-12 col-ls-2 card-content">
           <div class="card-body">
             <p class="card-stat text-light">${day.temp}</p>
             <p class="card-stat ">${day.humidity}</p>
