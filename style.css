@@ -26,7 +26,7 @@ font-family: 'Georgia', Times, 'Times New Roman', serif;
 }
 .main-0 {
   display: inline-block; 
-  margin-right: 10px;
+  /* //margin-right: 10px; */
   font-size: 1.4em; 
 }
 .list-group-items {
@@ -41,5 +41,4 @@ font-family: 'Georgia', Times, 'Times New Roman', serif;
 
 }
 .jumbotron {
-  padding-left: 100px;
 }

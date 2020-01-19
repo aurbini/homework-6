@@ -108,9 +108,11 @@ var citiesList = [];
   //            //<img src = http://openweathermap.org/img/wn/10d@2x.png/>
 
 function renderWeatherMain(){
-  mainContentDiv.empty(); 
+ // mainContentDiv.empty(); 
+ $('.main-display').empty(); 
   var todayWeatherDiv = $('<div>').attr('class', 'todays-weather-div') 
-  mainContentDiv.append(todayWeatherDiv); 
+ // mainContentDiv.append(todayWeatherDiv);
+ $('.main-display').append(todayWeatherDiv);  
   for(var i = 0; i < currentWeather.length; i++){
     //console.log('main')
     var currentWeatherStat = $('<p>');
