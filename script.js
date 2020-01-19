@@ -21,7 +21,7 @@ var citiesList = [];
 
   function weatherAPICall(inputCity){
     $.ajax({
-      url: `http://api.openweathermap.org/data/2.5/weather?q=${inputCity}&APPID=` +apiKey+'&units=imperial',
+      url: `https://api.openweathermap.org/data/2.5/weather?q=${inputCity}&APPID=` +apiKey+'&units=imperial',
       method: "GET"
     }).then(function(response){
       //console.log(response); 
@@ -37,7 +37,7 @@ var citiesList = [];
     //uvindex call
     function uvIndex (lon, lat){
       $.ajax({
-        url: `http://api.openweathermap.org/data/2.5/uvi/forecast?appid=${apiKey}&lat=${lat}&lon=${lon}`,
+        url: `https://api.openweathermap.org/data/2.5/uvi/forecast?appid=${apiKey}&lat=${lat}&lon=${lon}`,
         method: "GET"
       }).then(function(response){
         currentWeather[4] = response[0].value; 
