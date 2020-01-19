@@ -47,7 +47,7 @@ var citiesList = [];
 
   function fiveDayWeather(lon, lat){ 
     $.ajax({
-      url: `https://api.openweathermap.org/data/2.5/forecast?appid=${apiKey}&lat=${lat}&lon=${lon}`,
+      url: `https://api.openweathermap.org/data/2.5/forecast?appid=${apiKey}&lat=${lat}&lon=${lon}&units=imperial`,
       method: "GET"
     }).then(function(response){
       daysOfWeek = response.list.slice(0, 5).map(
@@ -91,10 +91,10 @@ var citiesList = [];
 
       
       weatherCardsDiv.append($(`
-        <div class="card bg-primary col-2 col-12-sm card-content">
-          <div class="card-body col-12-sm"
-            <p class="card-stat col-12-sm">${day.temp}</p>
-            <p class="card-stat">${day.humidity}</p>
+        <div class="card bg-primary mb-2 col-sm-12 card-content">
+          <div class="card-body">
+            <p class="card-stat text-light">${day.temp}</p>
+            <p class="card-stat ">${day.humidity}</p>
             <img src = http://openweathermap.org/img/wn/10d@2x.png/>
           </div>
         </div>

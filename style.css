@@ -20,6 +20,10 @@ font-family: 'Georgia', Times, 'Times New Roman', serif;
 .date {
   padding-left: 10px;
 }
+.card-stat {
+  font-family: Arial, Helvetica, sans-serif;
+  color: white; 
+}
 .main-0 {
   display: inline-block; 
   margin-right: 10px;
