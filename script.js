@@ -75,8 +75,8 @@ var citiesList = [];
     $('.cities-list').empty(); 
     var parsedList = JSON.parse(localStorage.getItem("citiesList"))
     console.log(parsedList); 
-    if(parsedList[0] === null){
-
+    if(parsedList === null){
+      return;
     }
     for(var i = 0; i < parsedList.length; i++){
       var storedCity = parsedList[i];
@@ -84,23 +84,28 @@ var citiesList = [];
        $('.cities-list').append($('<li class=list-group-item>').text(parsedList[i]));
     }
   }
+
   function renderWeatherCards(){
     weatherCardsDiv.empty();
+    var m = moment()
+    var currentDate = m.format('MM-DD-YYYY')
     //weatherCardsDiv.append($('<h2 class=five-day-heading>Five Day Forecast</h2>'))
     daysOfWeek.forEach(day => {
 
       
       weatherCardsDiv.append($(`
-        <div class="card bg-primary mb-2 col-sm-12 col-ls-2 card-content">
+        <div class="card bg-primary mb-2 col-sm-12 col-lg-2 card-content">
           <div class="card-body">
+            <p class="card-stat">${currentDate}</p>
             <p class="card-stat text-light">${day.temp}</p>
             <p class="card-stat ">${day.humidity}</p>
-            <img src = http://openweathermap.org/img/wn/10d@2x.png/>
           </div>
         </div>
       `))
     });
   }
+  //tried to put this in my append function above but does not work
+  //            //<img src = http://openweathermap.org/img/wn/10d@2x.png/>
 
 function renderWeatherMain(){
   mainContentDiv.empty(); 
@@ -112,8 +117,8 @@ function renderWeatherMain(){
     currentWeatherStat.attr('class','todayWeatherStat')
     if(i === 0){
       var m = moment()
-      var currentDate = m.format('MMM Do YYYY')
-      var date = $('<span>').text(currentDate).addClass('date');
+      var currentDate = m.format('MM-DD-YYYY')
+      var date = $('<span>').text(`(${currentDate})`).addClass('date');
       console.log(date); 
       currentWeatherStat.addClass(`main-${i}`)
     }
@@ -123,8 +128,9 @@ function renderWeatherMain(){
   }
 }
 var parsedList =  JSON.parse(localStorage.getItem("citiesList"))
-console.log(parsedList); 
-// renderCitiesList(); 
+
+
+
   function init(){
     if(parsedList === null){
       parsedList = 'Miami';

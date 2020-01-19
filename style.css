@@ -29,6 +29,9 @@ font-family: 'Georgia', Times, 'Times New Roman', serif;
   margin-right: 10px;
   font-size: 1.4em; 
 }
+.list-group-items {
+  padding-right: ;
+}
 .todayWeatherStat {
   font-family: 'Georgia', Times, 'Times New Roman', serif;
   font-weight: bold;
