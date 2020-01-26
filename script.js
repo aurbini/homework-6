@@ -108,7 +108,7 @@ var citiesList = [];
       //console.log(day);
       weatherCardcol.append($(`
           <div class="card bg-primary mb-2 card-content">
-            <div class="card-body">
+            <div class="card-body text-center">
               <p class="card-stat">${currentDate}</p>
               <p class="card-stat text-light">${day.temp}</p>
               <p class="card-stat">${day.humidity}%</p>
