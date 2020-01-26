@@ -89,18 +89,20 @@ var citiesList = [];
     weatherCardsDiv.empty();
     var m = moment()
     var currentDate = m.format('MM-DD-YYYY')
+    
     //weatherCardsDiv.append($('<h2 class=five-day-heading>Five Day Forecast</h2>'))
     daysOfWeek.forEach(day => {
-
+      var weatherCardcol = $('<div class="col-md-12 col-lg-2"></div>')
+      weatherCardsDiv.append(weatherCardcol)
       
-      weatherCardsDiv.append($(`
-        <div class="card bg-primary mb-2 col-sm-12 col-lg-2 card-content">
-          <div class="card-body">
-            <p class="card-stat">${currentDate}</p>
-            <p class="card-stat text-light">${day.temp}</p>
-            <p class="card-stat ">${day.humidity}</p>
+      weatherCardcol.append($(`
+          <div class="card bg-primary mb-2 card-content">
+            <div class="card-body">
+              <p class="card-stat">${currentDate}</p>
+              <p class="card-stat text-light">${day.temp}</p>
+              <p class="card-stat">${day.humidity}</p>
+            </div>
           </div>
-        </div>
       `))
     });
   }
