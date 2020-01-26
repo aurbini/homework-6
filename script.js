@@ -27,10 +27,11 @@ var citiesList = [];
       //console.log(response); 
        currentWeather[0] = response.name; 
        currentWeather[1] = `Temperature: ${response.main.temp}`;
-       currentWeather[2] = `Wind Speed: ${response.wind.speed}`;
-       currentWeather[3] = `Humidity: ${response.main.humidity}`
-      uvIndex(response.coord.lon,response.coord.lat); 
-      fiveDayWeather(response.coord.lon,response.coord.lat); 
+       currentWeather[3] = `Wind Speed: ${response.wind.speed}`;
+       currentWeather[4] = `Humidity: ${response.main.humidity}`;
+       var weatherIcon = response.weather[0].icon;
+       uvIndex(response.coord.lon,response.coord.lat); 
+      fiveDayWeather(response.coord.lon,response.coord.lat, weatherIcon); 
       renderCitiesList(); 
 
     });
@@ -45,23 +46,33 @@ var citiesList = [];
     }
     //5 day forecast ajax call
 
-  function fiveDayWeather(lon, lat){ 
+  function fiveDayWeather(lon, lat, weatherIcon){ 
     $.ajax({
       url: `https://api.openweathermap.org/data/2.5/forecast?appid=${apiKey}&lat=${lat}&lon=${lon}&units=imperial`,
       method: "GET"
     }).then(function(response){
+      var hour = response.list;
+      console.log(hour[0].weather[0].icon);
+      //var daysOfWeek = {}
+      // console.log(response.list)
+      // console.log(response.list[0].weather[0].icon);
       daysOfWeek = response.list.slice(0, 5).map(
         function(day, index){
           return {
             temp: day.main.temp,
             humidity: day.main.humidity,
-            icon: day.weather.icon
+            icon: day.weather[0].icon
           };
         }
+        // for(var i = 0; i < hour.length; i++){
+        //   if(i === 0 || i === 8 || i === 16 || i === 24 || i === 32 ){
+        //     daysOfWeek
+        //   }
+        // }
       )
       //storeItems(); 
       renderWeatherCards(); 
-      renderWeatherMain(); 
+      renderWeatherMain(weatherIcon); 
       })
     }
   }
@@ -94,13 +105,14 @@ var citiesList = [];
     daysOfWeek.forEach(day => {
       var weatherCardcol = $('<div class="col-md-12 col-lg-2"></div>')
       weatherCardsDiv.append(weatherCardcol)
-      
+      //console.log(day);
       weatherCardcol.append($(`
           <div class="card bg-primary mb-2 card-content">
             <div class="card-body">
               <p class="card-stat">${currentDate}</p>
               <p class="card-stat text-light">${day.temp}</p>
-              <p class="card-stat">${day.humidity}</p>
+              <p class="card-stat">${day.humidity}%</p>
+              <img align="middle" card-image" src="http://openweathermap.org/img/wn/${day.icon}@2x.png">
             </div>
           </div>
       `))
@@ -109,7 +121,9 @@ var citiesList = [];
   //tried to put this in my append function above but does not work
   //            //<img src = http://openweathermap.org/img/wn/10d@2x.png/>
 
-function renderWeatherMain(){
+function renderWeatherMain(weatherIcon){
+  console.log(weatherIcon);
+ var weatherpic = $(`<img src="http://openweathermap.org/img/wn/${weatherIcon}@2x.png">`);
  // mainContentDiv.empty(); 
  $('.main-display').empty(); 
   var todayWeatherDiv = $('<div>').attr('class', 'todays-weather-div') 
@@ -123,14 +137,15 @@ function renderWeatherMain(){
       var m = moment()
       var currentDate = m.format('MM-DD-YYYY')
       var date = $('<span>').text(`(${currentDate})`).addClass('date');
-      console.log(date); 
+      //console.log(date); 
       currentWeatherStat.addClass(`main-${i}`)
     }
     currentWeatherStat.text(currentWeather[i]); 
     todayWeatherDiv.append(currentWeatherStat); 
-    if(i === 0) currentWeatherStat.append(date); 
+    if(i === 0) {currentWeatherStat.append(date).append(weatherpic); 
+      }
+    }
   }
-}
 var parsedList =  JSON.parse(localStorage.getItem("citiesList"))
 
 
