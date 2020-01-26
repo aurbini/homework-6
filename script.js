@@ -51,29 +51,38 @@ var citiesList = [];
       url: `https://api.openweathermap.org/data/2.5/forecast?appid=${apiKey}&lat=${lat}&lon=${lon}&units=imperial`,
       method: "GET"
     }).then(function(response){
+      console.log(response);
       var hour = response.list;
       console.log(hour[0].weather[0].icon);
+      var daysOfWeek = [];
       //var daysOfWeek = {}
       // console.log(response.list)
       // console.log(response.list[0].weather[0].icon);
-      daysOfWeek = response.list.slice(0, 5).map(
-        function(day, index){
-          return {
-            temp: day.main.temp,
-            humidity: day.main.humidity,
-            icon: day.weather[0].icon
-          };
-        }
+      for(let i = 0; i < response.list.length;i+=8){
+        let day = response.list[i];
+        
+        daysOfWeek.push(day);
+
+      }
+      console.log(daysOfWeek);
+      renderWeatherCards(daysOfWeek); 
+
+      // daysOfWeek = response.list.map(
+      //   function(day, index){
+      //     return {
+      //       temp: day.main.temp,
+      //       humidity: day.main.humidity,
+      //       icon: day.weather[0].icon
+      //     };
+      //   }
         // for(var i = 0; i < hour.length; i++){
         //   if(i === 0 || i === 8 || i === 16 || i === 24 || i === 32 ){
         //     daysOfWeek
         //   }
         // }
-      )
+     })
       //storeItems(); 
-      renderWeatherCards(); 
       renderWeatherMain(weatherIcon); 
-      })
     }
   }
     function storeInformation(){
@@ -96,11 +105,13 @@ var citiesList = [];
     }
   }
 
-  function renderWeatherCards(){
+  function renderWeatherCards(daysOfWeek){
+    console.log(daysOfWeek);
     weatherCardsDiv.empty();
    
     //weatherCardsDiv.append($('<h2 class=five-day-heading>Five Day Forecast</h2>'))
     daysOfWeek.forEach(function(day,index){
+      console.log(day);
       var m = moment().add(index,'days');
       var currentDate = m.format('MM-DD-YYYY');
       var weatherCardcol = $('<div class="col-md-12 col-lg-2"></div>')
@@ -110,9 +121,9 @@ var citiesList = [];
           <div class="card bg-primary mb-2 card-content">
             <div class="card-body text-center">
               <p class="card-stat">${currentDate}</p>
-              <p class="card-stat text-light">${day.temp}</p>
-              <p class="card-stat">${day.humidity}%</p>
-              <img align="middle" card-image" src="http://openweathermap.org/img/wn/${day.icon}@2x.png">
+              <p class="card-stat text-light">${day.main.temp}</p>
+              <p class="card-stat">${day.main.humidity}%</p>
+              <img align="middle" card-image" src="http://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png">
             </div>
           </div>
       `))
@@ -176,5 +187,8 @@ var parsedList =  JSON.parse(localStorage.getItem("citiesList"))
     storeInformation();
     // renderCitiesList(); 
     weatherAPICall(inputCity);
+    //inputCity.val(' ');
+    $('#input-city').val('');
+
   })
 })

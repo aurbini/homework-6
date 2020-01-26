@@ -10,6 +10,9 @@ font-family: 'Georgia', Times, 'Times New Roman', serif;
   /* display: flex;  */
   justify-content: space-between;
 }
+#input-city {
+  border: 1px grey solid; 
+}
 .five-day-heading {
   display: block; 
 }
@@ -20,6 +23,7 @@ font-family: 'Georgia', Times, 'Times New Roman', serif;
 .date {
   padding-left: 10px;
 }
+
 .card-stat {
   font-family: Arial, Helvetica, sans-serif;
   color: white; 
