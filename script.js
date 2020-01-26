@@ -98,11 +98,11 @@ var citiesList = [];
 
   function renderWeatherCards(){
     weatherCardsDiv.empty();
-    var m = moment()
-    var currentDate = m.format('MM-DD-YYYY')
-    
+   
     //weatherCardsDiv.append($('<h2 class=five-day-heading>Five Day Forecast</h2>'))
-    daysOfWeek.forEach(day => {
+    daysOfWeek.forEach(function(day,index){
+      var m = moment().add(index,'days');
+      var currentDate = m.format('MM-DD-YYYY');
       var weatherCardcol = $('<div class="col-md-12 col-lg-2"></div>')
       weatherCardsDiv.append(weatherCardcol)
       //console.log(day);
